@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+/* thème dark simple */
+:root { color-scheme: dark; }
+html, body, #root { height: 100%; }

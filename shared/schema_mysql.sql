@@ -1,0 +1,52 @@
+CREATE TABLE IF NOT EXISTS guild (
+  id VARCHAR(32) PRIMARY KEY,
+  name VARCHAR(255),
+  config_json JSON NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS snapshot (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  guild_id VARCHAR(32),
+  scope VARCHAR(32),
+  payload_json JSON NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  by_user VARCHAR(64),
+  CONSTRAINT fk_snapshot_guild
+    FOREIGN KEY (guild_id) REFERENCES guild(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS incident (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  guild_id VARCHAR(32),
+  type VARCHAR(32),
+  risk_score INT,
+  signals_json JSON,
+  started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  resolved_at TIMESTAMP NULL DEFAULT NULL,
+  resolution VARCHAR(255),
+  CONSTRAINT fk_incident_guild
+    FOREIGN KEY (guild_id) REFERENCES guild(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS action_log (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  guild_id VARCHAR(32),
+  actor VARCHAR(64),
+  action VARCHAR(64),
+  target VARCHAR(64),
+  args_json JSON,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_action_guild
+    FOREIGN KEY (guild_id) REFERENCES guild(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS link_reputation (
+  host VARCHAR(255) PRIMARY KEY,
+  score INT,
+  flags JSON,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;

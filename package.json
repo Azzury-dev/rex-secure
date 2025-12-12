@@ -1,0 +1,19 @@
+{
+  "name": "rex-secure",
+  "private": true,
+  "scripts": {
+    "start:api": "node api/server.js",
+    "start:bot": "node bot/index.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.7",
+    "node-fetch": "^3.3.2",
+    "punycode": "^2.3.1"
+  }
+}
